@@ -10,14 +10,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- ================= КАСТОМНЫЙ КУРСОР ================= -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-tail" id="cursorTail"></div>
+
     <main class="portfolio">
-        <!-- Профиль: баннер + аватар + имя -->
+
+        <!-- ================= ПРОФИЛЬ ================= -->
         <header class="profile panel">
+
+            <!-- Баннер: картинка + aurora + сетка (все слои ВНУТРИ) -->
             <div class="banner">
+                <div class="banner-image" style="background-image: url('https://www.mirf.ru/backend/wp-content/uploads/2021/08/95e89ba7227a1fa6ff27ce0c0f4d1e68.jpg');"></div>
                 <div class="banner-glow"></div>
                 <div class="banner-grid"></div>
             </div>
 
+            <!-- Аватар -->
             <div class="avatar-wrapper">
                 <div class="avatar">
                     <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSRVCFBvMvoFJY7stvI2t_ssGl470TGhGfrK7_R0-urkaXCdqqX" alt="Аватар">
@@ -25,28 +35,26 @@
                 <span class="status-dot" title="Онлайн"></span>
             </div>
 
+            <!-- Имя и титул -->
             <div class="name-title">
                 <h1 class="name">NiikoDev</h1>
                 <p class="title">Game Developer</p>
 
                 <div class="socials">
                     <a href="https://discord.gg/AsW4YFCA8h" class="social-btn" aria-label="Discord">DC</a>
-                    <!-- <a href="#" class="social-btn" aria-label="Telegram">TG</a> -->
-                    <!-- <a href="#" class="social-btn" aria-label="Email">@</a> -->
                 </div>
             </div>
         </header>
 
-        <!-- Панель: Обо мне -->
+        <!-- ================= ОБО МНЕ ================= -->
         <section class="panel content-panel">
             <h2 class="section-title">About me</h2>
             <div class="text-content">
-                <p>Hi! I create VR games in Unity (one of my games: https://www.meta.com/en-gb/experiences/chimp-nightmare/1323162537540399). I strive to develop my programming skills and create unique games. I love Evangelion (as you might have noticed from my pfp) and I’m making a game based on it.</p>
-                
+                <p>Hi! I create VR games in Unity (one of my games: <a href="https://www.meta.com/en-gb/experiences/chimp-nightmare/1323162537540399" target="_blank">Chimp Nightmare</a>). I strive to develop my programming skills and create unique games. I love Evangelion (as you might have noticed from my pfp) and I'm making a game based on it.</p>
             </div>
         </section>
 
-        <!-- Панель: Навыки -->
+        <!-- ================= НАВЫКИ ================= -->
         <section class="panel content-panel">
             <h2 class="section-title">Skills</h2>
             <div class="text-content">
@@ -60,14 +68,17 @@
             </div>
         </section>
 
-        <!-- Панель: Контакты -->
+        <!-- ================= КОНТАКТЫ ================= -->
         <section class="panel content-panel">
             <h2 class="section-title">Contacts</h2>
             <div class="text-content">
-                <p>Open to collaboration. Write to me — I’ll respond within a day.</p>
-                <p class="contact-line">📧 <a href="mailto:niiko.gtag@gmail.com">hello@example.com</a></p>
+                <p>Open to collaboration. Write to me — I'll respond within a day.</p>
+                <p class="contact-line">📧 <a href="mailto:niiko.gtag@gmail.com">niiko.gtag@gmail.com</a></p>
             </div>
         </section>
+
     </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
