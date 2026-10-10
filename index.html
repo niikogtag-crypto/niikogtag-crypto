@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио | Имя Фамилия</title>
+    <!-- Подключаем гладкие шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        /* Сброс стилей */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            background: #0a0c0f;
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        /* Основной контейнер портфолио */
+        .portfolio {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Общий стиль для панелей с обводкой и свечением */
+        .panel {
+            background: rgba(18, 22, 28, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            border-radius: 32px;
+            box-shadow: 
+                0 0 15px rgba(80, 180, 255, 0.2),
+                inset 0 0 15px rgba(80, 180, 255, 0.1);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: rgba(120, 220, 255, 0.6);
+            box-shadow: 
+                0 0 25px rgba(80, 180, 255, 0.4),
+                inset 0 0 20px rgba(80, 180, 255, 0.15);
+        }
+
+        /* Блок с аватаркой и баннером */
+        .profile-header {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        /* Баннер за аватаркой */
+        .banner {
+            height: 180px;
+            background: linear-gradient(135deg, #1a2a3a, #0f1a24, #1a2f3f);
+            background-size: 200% 200%;
+            position: relative;
+            border-radius: 32px 32px 0 0;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+            box-shadow: inset 0 0 50px rgba(0, 180, 255, 0.2);
+            animation: subtleGlow 6s infinite alternate;
+        }
+
+        @keyframes subtleGlow {
+            0% { background-position: 0% 50%; box-shadow: inset 0 0 40px rgba(0, 180, 255, 0.1); }
+            100% { background-position: 100% 50%; box-shadow: inset 0 0 70px rgba(0, 220, 255, 0.25); }
+        }
+
+        /* Аватарка */
+        .avatar-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-top: -70px; /* Поднимаем аватарку на баннер */
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid #0a0c0f;
+            background: #1e2a36;
+            box-shadow: 
+                0 0 0 2px rgba(100, 200, 255, 0.7),
+                0 0 25px rgba(80, 180, 255, 0.6);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            background-image: url('https://placecats.com/300/300?random=1'); /* Замените на своё фото */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .avatar:hover {
+            transform: scale(1.02);
+            box-shadow: 
+                0 0 0 2px rgba(120, 220, 255, 0.9),
+                0 0 35px rgba(80, 180, 255, 0.9);
+        }
+
+        /* Имя и должность */
+        .name-title {
+            text-align: center;
+            padding: 16px 0 8px;
+        }
+
+        .name {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #ffffff, #b0e0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(80, 180, 255, 0.4);
+            margin-bottom: 6px;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #a0b8c8;
+            letter-spacing: 0.3px;
+            text-shadow: 0 0 10px rgba(80, 180, 255, 0.2);
+        }
+
+        /* Панель для текста */
+        .content-panel {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #c0e0ff;
+            letter-spacing: -0.01em;
+            border-left: 4px solid #4aa8ff;
+            padding-left: 16px;
+            text-shadow: 0 0 12px rgba(80, 180, 255, 0.3);
+            margin-bottom: 4px;
+        }
+
+        .text-content {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #c8d8e8;
+            line-height: 1.7;
+            text-shadow: 0 0 8px rgba(80, 180, 255, 0.1);
+        }
+
+        .text-content p {
+            margin-bottom: 16px;
+        }
+
+        .text-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Дополнительные элементы для красоты */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.4), transparent);
+            margin: 8px 0;
+        }
+
+        /* Адаптив */
+        @media (max-width: 600px) {
+            .banner {
+                height: 130px;
+            }
+
+            .avatar {
+                width: 110px;
+                height: 110px;
+            }
+
+            .avatar-wrapper {
+                margin-top: -55px;
+            }
+
+            .name {
+                font-size: 1.8rem;
+            }
+
+            .title {
+                font-size: 0.95rem;
+            }
+
+            .content-panel {
+                padding: 24px 20px;
+            }
+
+            .section-title {
+                font-size: 1.15rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portfolio">
+        <!-- Блок с баннером, аватаркой и именем -->
+        <div class="profile-header">
+            <div class="banner"></div>
+            <div class="avatar-wrapper">
+                <div class="avatar"></div>
+            </div>
+            <div class="name-title">
+                <div class="name">Алексей Смирнов</div>
+                <div class="title">Веб-разработчик & UI/UX дизайнер</div>
+            </div>
+        </div>
+
+        <!-- Панель с текстом (можно добавить несколько таких) -->
+        <div class="panel content-panel">
+            <div class="section-title">Обо мне</div>
+            <div class="text-content">
+                <p>Привет! Я создаю современные и удобные интерфейсы для веб-приложений. Более 5 лет работаю с React, Vue и чистым JavaScript, уделяю особое внимание анимациям и микровзаимодействиям.</p>
+                <p>Верю, что хороший дизайн — это не только красота, но и интуитивная понятность. Постоянно учусь новому и слежу за трендами в области фронтенда.</p>
+            </div>
+        </div>
+
+        <!-- Ещё одна панель для текста (например, "Навыки" или "Проекты") -->
+        <div class="panel content-panel">
+            <div class="section-title">Навыки</div>
+            <div class="text-content">
+                <p>HTML5, CSS3 (Sass, Tailwind), JavaScript (ES6+), TypeScript, React, Vue 3, Node.js, Figma, Git, Webpack, Vite. Адаптивная верстка, анимации CSS/JS, оптимизация производительности.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
