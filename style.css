@@ -1,21 +1,43 @@
-/* ============ БАЗА ============ */
-* {
+/* ============================================================
+   NIIKODEV PORTFOLIO — style.css
+   Чёрно-синяя палитра · liquid glass · кастомный курсор
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   БАЗА
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 :root {
-    --bg: #07090c;
-    --bg-panel: rgba(16, 20, 26, 0.75);
-    --border: rgba(110, 190, 255, 0.25);
-    --border-hover: rgba(130, 215, 255, 0.65);
-    --accent: #4ab8ff;
-    --accent-soft: rgba(74, 184, 255, 0.5);
-    --text: #e6eef7;
-    --text-dim: #94a8bd;
-    --glow: 0 0 20px rgba(74, 184, 255, 0.25);
-    --glow-strong: 0 0 35px rgba(74, 184, 255, 0.55);
+    --bg-0: #010306;
+
+    /* Чёрно-синие акценты */
+    --accent: #2b6cb0;
+    --accent-2: #143a6b;
+    --accent-3: #4a90c2;
+    --accent-soft: rgba(43, 108, 176, 0.4);
+
+    /* Текст */
+    --text: #d4e3f2;
+    --text-dim: #6d84a0;
+
+    /* Стекло */
+    --glass-border: rgba(80, 130, 190, 0.3);
+    --glass-border-hover: rgba(120, 175, 230, 0.7);
+
+    /* Радиусы */
+    --r-lg: 32px;
+    --r-sm: 14px;
+
+    /* Параллакс */
+    --mx: 0;
+    --my: 0;
 }
 
 html {
@@ -24,121 +46,367 @@ html {
 
 body {
     font-family: 'Inter', system-ui, sans-serif;
-    background:
-        radial-gradient(1200px 800px at 20% -10%, rgba(74, 184, 255, 0.08), transparent 60%),
-        radial-gradient(900px 600px at 100% 100%, rgba(140, 90, 255, 0.08), transparent 60%),
-        var(--bg);
     color: var(--text);
     min-height: 100vh;
+    padding: 60px 20px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 48px 20px;
     line-height: 1.6;
+    background: var(--bg-0);
+    position: relative;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Прячем системный курсор */
+    cursor: none;
 }
 
-/* ============ КОНТЕЙНЕР ============ */
+a,
+button,
+input,
+textarea,
+[role="button"] {
+    cursor: none;
+}
+
+/* ============================================================
+   ЖИВОЙ ФОН — aurora + сетка
+   ============================================================ */
+
+/* Слой 1: глубокие чёрно-синие пятна с параллаксом */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -25vmax;
+    z-index: -2;
+    background:
+        radial-gradient(closest-side at 20% 25%, rgba(20, 58, 107, 0.85), transparent 65%),
+        radial-gradient(closest-side at 80% 20%, rgba(43, 108, 176, 0.5), transparent 65%),
+        radial-gradient(closest-side at 75% 85%, rgba(10, 30, 60, 0.9), transparent 65%),
+        radial-gradient(closest-side at 15% 90%, rgba(30, 70, 130, 0.6), transparent 65%),
+        radial-gradient(closest-side at 50% 50%, rgba(5, 20, 45, 0.85), transparent 70%);
+    filter: blur(85px) saturate(150%);
+    animation: auroraShift 22s ease-in-out infinite alternate;
+    translate: calc(var(--mx) * -20px) calc(var(--my) * -20px);
+    transition: translate 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Слой 2: тонкая синяя сетка (параллакс в другую сторону) */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(70, 110, 170, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(70, 110, 170, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 45%, #000 30%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 30%, transparent 90%);
+    translate: calc(var(--mx) * 12px) calc(var(--my) * 12px);
+    transition: translate 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    pointer-events: none;
+}
+
+@keyframes auroraShift {
+    0% {
+        transform: scale(1) rotate(0deg);
+        filter: blur(85px) saturate(150%) hue-rotate(0deg);
+    }
+    33% {
+        transform: scale(1.12) rotate(6deg);
+        filter: blur(95px) saturate(165%) hue-rotate(-5deg);
+    }
+    66% {
+        transform: scale(1.06) rotate(-4deg);
+        filter: blur(90px) saturate(155%) hue-rotate(5deg);
+    }
+    100% {
+        transform: scale(1.1) rotate(3deg);
+        filter: blur(88px) saturate(175%) hue-rotate(-3deg);
+    }
+}
+
+/* ============================================================
+   КОНТЕЙНЕР
+   ============================================================ */
 .portfolio {
     width: 100%;
-    max-width: 860px;
+    max-width: 880px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 26px;
+    position: relative;
+    z-index: 1;
 }
 
-/* ============ УНИВЕРСАЛЬНАЯ ПАНЕЛЬ ============ */
+/* ============================================================
+   LIQUID GLASS PANEL
+   ============================================================ */
 .panel {
     position: relative;
-    background: var(--bg-panel);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    box-shadow: var(--glow), inset 0 0 24px rgba(74, 184, 255, 0.06);
-    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    border-radius: var(--r-lg);
+    isolation: isolate;
     overflow: hidden;
+
+    background: transparent;
+    backdrop-filter: blur(26px) saturate(180%) brightness(1.02);
+    -webkit-backdrop-filter: blur(26px) saturate(180%) brightness(1.02);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.7),
+        0 8px 24px rgba(0, 0, 0, 0.55),
+        0 0 50px rgba(43, 108, 176, 0.14),
+        inset 0 1px 0 rgba(120, 170, 220, 0.16),
+        inset 0 -1px 0 rgba(60, 100, 160, 0.05);
+
+    transition:
+        transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+        box-shadow 0.6s ease;
 }
 
-/* Тонкая градиентная полоска сверху — как «подсветка» */
 .panel::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 10%;
-    right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+    inset: 0;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: linear-gradient(
+        135deg,
+        rgba(140, 185, 230, 0.65) 0%,
+        rgba(70, 130, 190, 0.4) 25%,
+        rgba(255, 255, 255, 0.04) 50%,
+        rgba(43, 108, 176, 0.5) 75%,
+        rgba(120, 170, 220, 0.6) 100%
+    );
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.9;
+    transition: opacity 0.5s ease;
+}
+
+.panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        radial-gradient(120% 60% at 20% 0%,
+            rgba(120, 170, 220, 0.09) 0%, transparent 50%),
+        radial-gradient(120% 60% at 80% 100%,
+            rgba(43, 108, 176, 0.08) 0%, transparent 50%);
+    filter: blur(20px);
+    mix-blend-mode: screen;
+    animation: liquidFlow 15s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 1;
     opacity: 0.7;
 }
 
+@keyframes liquidFlow {
+    0%   { transform: translate3d(-4%, -3%, 0) scale(1);   opacity: 0.5; }
+    50%  { transform: translate3d(3%, 2%, 0) scale(1.05);  opacity: 0.8; }
+    100% { transform: translate3d(-2%, 4%, 0) scale(1.02); opacity: 0.55; }
+}
+
+.panel > * {
+    position: relative;
+    z-index: 3;
+}
+
 .panel:hover {
-    border-color: var(--border-hover);
-    box-shadow: var(--glow-strong), inset 0 0 30px rgba(74, 184, 255, 0.12);
+    transform: translateY(-3px);
+    box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.8),
+        0 10px 30px rgba(0, 0, 0, 0.6),
+        0 0 70px rgba(43, 108, 176, 0.28),
+        inset 0 1px 0 rgba(140, 185, 230, 0.25),
+        inset 0 -1px 0 rgba(60, 100, 160, 0.1);
 }
 
-/* ============ ПРОФИЛЬ ============ */
+.panel:hover::before {
+    opacity: 1;
+}
+
+/* ============================================================
+   ПРОФИЛЬ
+   ============================================================ */
 .profile {
-    padding-bottom: 28px;
-    animation: fadeUp 0.8s ease both;
+    padding-bottom: 34px;
+    animation: riseIn 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-/* --- Баннер --- */
+/* ------------------------------------------------------------
+   БАННЕР
+   ------------------------------------------------------------ */
 .banner {
     position: relative;
-    height: 200px;
-    background: linear-gradient(135deg, #0e1a26 0%, #12293d 40%, #0a1620 100%);
+    height: 220px;
     overflow: hidden;
-    border-radius: 28px 28px 0 0;
+    background: transparent;
 }
 
-/* Мягкое «дыхание» свечения */
+.banner-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.4) contrast(1.15) saturate(1.05) hue-rotate(-15deg);
+    animation: bannerZoom 20s ease-in-out infinite alternate;
+    transform-origin: center;
+}
+
+@keyframes bannerZoom {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+        linear-gradient(180deg,
+            rgba(1, 3, 6, 0.4) 0%,
+            rgba(1, 3, 6, 0.05) 40%,
+            rgba(1, 3, 6, 0.85) 100%);
+    pointer-events: none;
+}
+
 .banner-glow {
     position: absolute;
-    inset: -40%;
+    inset: -30%;
+    z-index: 1;
     background:
-        radial-gradient(circle at 30% 40%, rgba(74, 184, 255, 0.35), transparent 55%),
-        radial-gradient(circle at 75% 60%, rgba(160, 90, 255, 0.25), transparent 55%);
-    filter: blur(30px);
-    animation: breathe 8s ease-in-out infinite alternate;
+        radial-gradient(closest-side at 25% 30%, rgba(43, 108, 176, 0.6), transparent 65%),
+        radial-gradient(closest-side at 80% 40%, rgba(20, 58, 107, 0.8), transparent 65%),
+        radial-gradient(closest-side at 60% 85%, rgba(74, 144, 194, 0.35), transparent 65%);
+    filter: blur(50px) saturate(160%);
+    animation: auroraMove 15s ease-in-out infinite alternate;
+    mix-blend-mode: screen;
+    pointer-events: none;
 }
 
-@keyframes breathe {
-    0%   { transform: scale(1) translate(0, 0); opacity: 0.7; }
-    100% { transform: scale(1.15) translate(2%, -2%); opacity: 1; }
+@keyframes auroraMove {
+    0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg);        opacity: 0.8; }
+    50%  { transform: translate3d(4%, -3%, 0) scale(1.12) rotate(2deg);  opacity: 1; }
+    100% { transform: translate3d(-3%, 2%, 0) scale(1.06) rotate(-2deg); opacity: 0.9; }
 }
 
-/* Тонкая сетка для «техно»-вайба */
 .banner-grid {
     position: absolute;
     inset: 0;
+    z-index: 3;
     background-image:
-        linear-gradient(rgba(120, 200, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(120, 200, 255, 0.08) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(circle at 50% 60%, #000 30%, transparent 80%);
-    -webkit-mask-image: radial-gradient(circle at 50% 60%, #000 30%, transparent 80%);
+        linear-gradient(rgba(80, 130, 190, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 130, 190, 0.1) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse at 50% 65%, #000 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 65%, #000 20%, transparent 80%);
+    opacity: 0.6;
+    pointer-events: none;
 }
 
-/* --- Аватар --- */
+.banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    background-image:
+        radial-gradient(1px 1px at 12% 30%, rgba(180, 210, 240, 0.9), transparent),
+        radial-gradient(1px 1px at 28% 70%, rgba(140, 180, 220, 0.8), transparent),
+        radial-gradient(1px 1px at 47% 25%, rgba(180, 210, 240, 0.85), transparent),
+        radial-gradient(1px 1px at 68% 55%, rgba(150, 190, 225, 0.8), transparent),
+        radial-gradient(1px 1px at 82% 30%, rgba(180, 210, 240, 0.85), transparent),
+        radial-gradient(1px 1px at 90% 75%, rgba(140, 180, 220, 0.7), transparent),
+        radial-gradient(1px 1px at 55% 85%, rgba(180, 210, 240, 0.8), transparent),
+        radial-gradient(1px 1px at 8% 80%, rgba(150, 190, 225, 0.75), transparent);
+    opacity: 0.85;
+    animation: twinkle 5s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 1; }
+}
+
+/* ------------------------------------------------------------
+   АВАТАР
+   ------------------------------------------------------------ */
 .avatar-wrapper {
     position: relative;
     display: flex;
     justify-content: center;
-    margin-top: -80px;
-    z-index: 2;
+    margin-top: -88px;
+    z-index: 3;
+}
+
+.avatar-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 184px;
+    height: 184px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(43, 108, 176, 0.0) 40deg,
+        rgba(43, 108, 176, 0.8) 120deg,
+        rgba(20, 58, 107, 0.95) 200deg,
+        rgba(74, 144, 194, 0.55) 280deg,
+        transparent 360deg
+    );
+    filter: blur(6px);
+    animation: spin 7s linear infinite;
+    z-index: -1;
+    opacity: 0.9;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .avatar {
-    width: 156px;
-    height: 156px;
+    position: relative;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     padding: 4px;
-    background: linear-gradient(135deg, var(--accent), #a05aff);
+
+    background: linear-gradient(135deg,
+        rgba(140, 185, 230, 0.45),
+        rgba(74, 144, 194, 0.25) 40%,
+        rgba(255, 255, 255, 0.06) 70%,
+        rgba(43, 108, 176, 0.5));
+
     box-shadow:
-        0 0 0 6px rgba(7, 9, 12, 0.9),
-        0 0 30px rgba(74, 184, 255, 0.5);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+        0 0 0 6px rgba(1, 3, 6, 0.95),
+        0 0 34px rgba(43, 108, 176, 0.6),
+        0 0 80px rgba(20, 58, 107, 0.55),
+        inset 0 0 20px rgba(120, 170, 220, 0.15);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transition:
+        transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+        box-shadow 0.5s ease;
 }
 
 .avatar img {
@@ -147,112 +415,191 @@ body {
     border-radius: 50%;
     object-fit: cover;
     display: block;
-    border: 3px solid #0a0d11;
+    border: 3px solid #010409;
+}
+
+.avatar::after {
+    content: "";
+    position: absolute;
+    top: 6%;
+    left: 10%;
+    width: 45%;
+    height: 30%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center,
+        rgba(255, 255, 255, 0.45),
+        transparent 70%);
+    filter: blur(6px);
+    pointer-events: none;
+    z-index: 2;
 }
 
 .avatar:hover {
-    transform: translateY(-4px) scale(1.03);
+    transform: translateY(-4px) scale(1.04);
     box-shadow:
-        0 0 0 6px rgba(7, 9, 12, 0.9),
-        0 0 45px rgba(74, 184, 255, 0.85);
+        0 0 0 6px rgba(1, 3, 6, 0.95),
+        0 0 50px rgba(43, 108, 176, 0.85),
+        0 0 110px rgba(20, 58, 107, 0.8),
+        inset 0 0 20px rgba(140, 185, 230, 0.28);
 }
 
-/* Зелёная точка «онлайн» */
 .status-dot {
     position: absolute;
-    bottom: 14px;
-    right: calc(50% - 62px);
-    width: 20px;
-    height: 20px;
+    bottom: 12px;
+    right: calc(50% - 64px);
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: #29e07a;
-    border: 3px solid #0a0d11;
-    box-shadow: 0 0 12px #29e07a;
-    animation: pulse 2s infinite;
+    background: radial-gradient(circle at 35% 35%, #7dffb8, #29e07a 60%, #12b85e);
+    border: 3px solid #010409;
+    box-shadow: 0 0 12px #29e07a, 0 0 24px rgba(41, 224, 122, 0.5);
+    animation: pulse 2.2s ease-in-out infinite;
+    z-index: 4;
 }
 
 @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 12px #29e07a; }
-    50%      { box-shadow: 0 0 20px #29e07a, 0 0 30px rgba(41, 224, 122, 0.6); }
+    0%, 100% { box-shadow: 0 0 10px #29e07a, 0 0 20px rgba(41, 224, 122, 0.45); }
+    50%      { box-shadow: 0 0 18px #29e07a, 0 0 40px rgba(41, 224, 122, 0.7); }
 }
 
-/* --- Имя и титул --- */
+/* ------------------------------------------------------------
+   ИМЯ И ТИТУЛ
+   ------------------------------------------------------------ */
 .name-title {
     text-align: center;
-    padding: 20px 24px 0;
+    padding: 22px 24px 0;
 }
 
 .name {
     font-family: 'Manrope', sans-serif;
-    font-size: 2.6rem;
+    font-size: 2.75rem;
     font-weight: 800;
-    letter-spacing: -0.03em;
-    background: linear-gradient(135deg, #ffffff 20%, #9dd6ff 60%, #c8a8ff 100%);
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    margin-bottom: 10px;
+
+    background: linear-gradient(120deg,
+        #ffffff 0%,
+        #a8c6e0 30%,
+        #2b6cb0 60%,
+        #0d2a52 100%);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
-    background-clip: text;
+            background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 0 18px rgba(74, 184, 255, 0.35));
-    margin-bottom: 8px;
+    filter:
+        drop-shadow(0 0 22px rgba(43, 108, 176, 0.6))
+        drop-shadow(0 0 44px rgba(20, 58, 107, 0.5));
+    animation: shimmer 8s ease-in-out infinite alternate;
+}
+
+@keyframes shimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 .title {
     font-size: 1.05rem;
     font-weight: 400;
     color: var(--text-dim);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
-/* --- Соцкнопки --- */
+.title::before,
+.title::after {
+    content: "";
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    vertical-align: middle;
+    margin: 0 12px;
+    background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+}
+
+/* ------------------------------------------------------------
+   СОЦКНОПКИ
+   ------------------------------------------------------------ */
 .socials {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-top: 22px;
+    margin-top: 24px;
 }
 
 .social-btn {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     display: grid;
     place-items: center;
-    border-radius: 14px;
+    border-radius: var(--r-sm);
     text-decoration: none;
-    color: #cfe6ff;
+    color: #a8c2dc;
     font-weight: 600;
     font-size: 0.85rem;
-    background: rgba(74, 184, 255, 0.08);
-    border: 1px solid var(--border);
-    box-shadow: inset 0 0 12px rgba(74, 184, 255, 0.08);
-    transition: all 0.3s ease;
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+
+    background: transparent;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+        inset 0 1px 0 rgba(140, 185, 230, 0.22),
+        inset 0 -1px 0 rgba(60, 100, 160, 0.06),
+        0 4px 14px rgba(0, 0, 0, 0.5);
+
+    transition: all 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.social-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 120%,
+        rgba(43, 108, 176, 0.55), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
 }
 
 .social-btn:hover {
     color: #fff;
-    border-color: var(--border-hover);
-    background: rgba(74, 184, 255, 0.2);
-    box-shadow: 0 0 20px rgba(74, 184, 255, 0.6);
-    transform: translateY(-3px);
+    border-color: var(--glass-border-hover);
+    background: rgba(43, 108, 176, 0.12);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+        inset 0 1px 0 rgba(140, 185, 230, 0.45),
+        0 0 22px rgba(43, 108, 176, 0.75),
+        0 0 44px rgba(20, 58, 107, 0.55);
 }
 
-/* ============ КОНТЕНТ-ПАНЕЛИ ============ */
+.social-btn:hover::before {
+    opacity: 1;
+}
+
+/* ============================================================
+   КОНТЕНТ-ПАНЕЛИ
+   ============================================================ */
 .content-panel {
-    padding: 30px 34px;
-    animation: fadeUp 0.8s ease both;
+    padding: 32px 36px;
+    animation: riseIn 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-.content-panel:nth-child(2) { animation-delay: 0.1s; }
-.content-panel:nth-child(3) { animation-delay: 0.2s; }
-.content-panel:nth-child(4) { animation-delay: 0.3s; }
+.content-panel:nth-child(2) { animation-delay: 0.12s; }
+.content-panel:nth-child(3) { animation-delay: 0.22s; }
+.content-panel:nth-child(4) { animation-delay: 0.32s; }
 
 .section-title {
     font-family: 'Manrope', sans-serif;
-    font-size: 1.25rem;
+    font-size: 1.28rem;
     font-weight: 700;
-    color: #d6e9ff;
-    padding-left: 16px;
-    margin-bottom: 18px;
+    color: #c2d6ea;
+    padding-left: 20px;
+    margin-bottom: 20px;
     position: relative;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    text-shadow: 0 0 18px rgba(43, 108, 176, 0.55);
 }
 
 .section-title::before {
@@ -261,127 +608,285 @@ body {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 4px;
-    height: 22px;
+    width: 5px;
+    height: 24px;
     border-radius: 4px;
-    background: linear-gradient(180deg, var(--accent), #a05aff);
-    box-shadow: 0 0 12px var(--accent);
+    background: linear-gradient(180deg, var(--accent-3), var(--accent-2));
+    box-shadow:
+        0 0 12px var(--accent),
+        0 0 24px rgba(20, 58, 107, 0.8);
 }
 
 .text-content {
     font-size: 1rem;
     font-weight: 300;
-    color: #c6d6e6;
-    line-height: 1.75;
+    color: #b8c9dc;
+    line-height: 1.8;
+    letter-spacing: 0.005em;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
 .text-content p + p {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .text-content a {
-    color: var(--accent);
+    color: var(--accent-3);
     text-decoration: none;
-    border-bottom: 1px dashed rgba(74, 184, 255, 0.5);
-    transition: color 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.text-content a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-3), var(--accent-2));
+    opacity: 0.55;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
 }
 
 .text-content a:hover {
-    color: #9dd6ff;
-    border-color: #9dd6ff;
+    color: #a8d0f0;
+}
+
+.text-content a:hover::after {
+    opacity: 1;
+    box-shadow: 0 0 10px var(--accent);
 }
 
 .contact-line {
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 1.05rem;
 }
 
-/* ============ ТЕГИ НАВЫКОВ ============ */
+/* ============================================================
+   ТЕГИ НАВЫКОВ
+   ============================================================ */
 .skill-tags {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 20px;
 }
 
 .skill-tags li {
-    padding: 7px 16px;
+    padding: 8px 18px;
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #cfe6ff;
-    background: rgba(74, 184, 255, 0.08);
-    border: 1px solid var(--border);
-    box-shadow: inset 0 0 10px rgba(74, 184, 255, 0.08);
-    transition: all 0.3s ease;
-    cursor: default;
+    letter-spacing: 0.02em;
+    color: #a8c2dc;
+    cursor: none;
+    position: relative;
+
+    background: transparent;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+        inset 0 1px 0 rgba(140, 185, 230, 0.22),
+        inset 0 -1px 0 rgba(60, 100, 160, 0.06),
+        0 4px 14px rgba(0, 0, 0, 0.5);
+
+    transition: all 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .skill-tags li:hover {
     color: #fff;
-    border-color: var(--border-hover);
-    background: rgba(74, 184, 255, 0.18);
-    box-shadow: 0 0 16px rgba(74, 184, 255, 0.55);
-    transform: translateY(-2px);
+    border-color: var(--glass-border-hover);
+    background: rgba(43, 108, 176, 0.12);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+        inset 0 1px 0 rgba(140, 185, 230, 0.45),
+        0 0 22px rgba(43, 108, 176, 0.75),
+        0 0 44px rgba(20, 58, 107, 0.55);
 }
 
-/* ============ АНИМАЦИЯ ПОЯВЛЕНИЯ ============ */
-@keyframes fadeUp {
+/* ============================================================
+   АНИМАЦИЯ ПОЯВЛЕНИЯ
+   ============================================================ */
+@keyframes riseIn {
     from {
         opacity: 0;
-        transform: translateY(24px);
+        transform: translateY(28px) scale(0.98);
+        filter: blur(6px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+        filter: blur(0);
     }
 }
 
-/* ============ АДАПТИВ ============ */
-@media (max-width: 640px) {
+/* ============================================================
+   КАСТОМНЫЙ КУРСОР — точка + хвост из сегментов
+   ============================================================ */
+
+/* Контейнер хвоста — просто оболочка, сегменты внутри */
+.cursor-tail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: opacity 0.2s ease;
+}
+
+/* Сегменты хвоста — создаются в JS */
+.cursor-segment {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    pointer-events: none;
+
+    /* Синее свечение — как у точки */
+    background: radial-gradient(circle at center,
+        rgba(180, 220, 255, 0.9) 0%,
+        rgba(43, 108, 176, 0.7) 40%,
+        rgba(20, 58, 107, 0.3) 70%,
+        transparent 100%);
+
+    filter: blur(1.5px);
+    mix-blend-mode: screen;
+
+    will-change: transform;
+    transition: width 0.25s ease, height 0.25s ease, filter 0.25s ease;
+}
+
+/* Маленькая основная точка */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d4e8ff;
+    box-shadow:
+        0 0 10px rgba(180, 220, 255, 0.95),
+        0 0 22px rgba(43, 108, 176, 0.9),
+        0 0 40px rgba(43, 108, 176, 0.5);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+    transition: width 0.25s ease, height 0.25s ease, background 0.25s ease,
+                opacity 0.2s ease;
+}
+
+/* Hover на интерактивных элементах — точка увеличивается */
+.cursor-dot.is-hover {
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    box-shadow:
+        0 0 14px rgba(200, 235, 255, 1),
+        0 0 30px rgba(43, 108, 176, 1),
+        0 0 55px rgba(43, 108, 176, 0.6);
+}
+
+/* Клик — вспышка */
+.cursor-dot.is-click {
+    width: 18px;
+    height: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 0 20px rgba(200, 235, 255, 1),
+        0 0 45px rgba(43, 108, 176, 1),
+        0 0 80px rgba(43, 108, 176, 0.7);
+}
+
+/* Скрываем курсор на тач-устройствах */
+@media (hover: none) {
+    .cursor-dot,
+    .cursor-tail {
+        display: none;
+    }
+    body, a, button, input, textarea, [role="button"] {
+        cursor: auto;
+    }
+}
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+@media (max-width: 700px) {
     body {
-        padding: 24px 14px;
+        padding: 28px 14px;
     }
 
     .banner {
-        height: 150px;
-    }
-
-    .avatar {
-        width: 120px;
-        height: 120px;
+        height: 160px;
     }
 
     .avatar-wrapper {
-        margin-top: -62px;
+        margin-top: -68px;
+    }
+
+    .avatar-wrapper::before {
+        width: 148px;
+        height: 148px;
+    }
+
+    .avatar {
+        width: 128px;
+        height: 128px;
     }
 
     .status-dot {
-        right: calc(50% - 48px);
-        width: 17px;
-        height: 17px;
+        width: 18px;
+        height: 18px;
+        right: calc(50% - 52px);
         bottom: 8px;
     }
 
     .name {
-        font-size: 1.85rem;
+        font-size: 1.9rem;
     }
 
     .title {
-        font-size: 0.95rem;
+        font-size: 0.82rem;
+    }
+
+    .title::before,
+    .title::after {
+        width: 14px;
+        margin: 0 8px;
     }
 
     .content-panel {
-        padding: 24px 20px;
+        padding: 26px 22px;
     }
 
     .section-title {
-        font-size: 1.1rem;
+        font-size: 1.12rem;
     }
 
     .social-btn {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* ============================================================
+   УВАЖЕНИЕ К НАСТРОЙКАМ ПОЛЬЗОВАТЕЛЯ
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
     }
 }
