@@ -1,1 +1,387 @@
+/* ============ БАЗА ============ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+:root {
+    --bg: #07090c;
+    --bg-panel: rgba(16, 20, 26, 0.75);
+    --border: rgba(110, 190, 255, 0.25);
+    --border-hover: rgba(130, 215, 255, 0.65);
+    --accent: #4ab8ff;
+    --accent-soft: rgba(74, 184, 255, 0.5);
+    --text: #e6eef7;
+    --text-dim: #94a8bd;
+    --glow: 0 0 20px rgba(74, 184, 255, 0.25);
+    --glow-strong: 0 0 35px rgba(74, 184, 255, 0.55);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background:
+        radial-gradient(1200px 800px at 20% -10%, rgba(74, 184, 255, 0.08), transparent 60%),
+        radial-gradient(900px 600px at 100% 100%, rgba(140, 90, 255, 0.08), transparent 60%),
+        var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px 20px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ============ КОНТЕЙНЕР ============ */
+.portfolio {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ============ УНИВЕРСАЛЬНАЯ ПАНЕЛЬ ============ */
+.panel {
+    position: relative;
+    background: var(--bg-panel);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--glow), inset 0 0 24px rgba(74, 184, 255, 0.06);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    overflow: hidden;
+}
+
+/* Тонкая градиентная полоска сверху — как «подсветка» */
+.panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+    opacity: 0.7;
+}
+
+.panel:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--glow-strong), inset 0 0 30px rgba(74, 184, 255, 0.12);
+}
+
+/* ============ ПРОФИЛЬ ============ */
+.profile {
+    padding-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+}
+
+/* --- Баннер --- */
+.banner {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(135deg, #0e1a26 0%, #12293d 40%, #0a1620 100%);
+    overflow: hidden;
+    border-radius: 28px 28px 0 0;
+}
+
+/* Мягкое «дыхание» свечения */
+.banner-glow {
+    position: absolute;
+    inset: -40%;
+    background:
+        radial-gradient(circle at 30% 40%, rgba(74, 184, 255, 0.35), transparent 55%),
+        radial-gradient(circle at 75% 60%, rgba(160, 90, 255, 0.25), transparent 55%);
+    filter: blur(30px);
+    animation: breathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes breathe {
+    0%   { transform: scale(1) translate(0, 0); opacity: 0.7; }
+    100% { transform: scale(1.15) translate(2%, -2%); opacity: 1; }
+}
+
+/* Тонкая сетка для «техно»-вайба */
+.banner-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(120, 200, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 200, 255, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at 50% 60%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at 50% 60%, #000 30%, transparent 80%);
+}
+
+/* --- Аватар --- */
+.avatar-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: -80px;
+    z-index: 2;
+}
+
+.avatar {
+    width: 156px;
+    height: 156px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--accent), #a05aff);
+    box-shadow:
+        0 0 0 6px rgba(7, 9, 12, 0.9),
+        0 0 30px rgba(74, 184, 255, 0.5);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 3px solid #0a0d11;
+}
+
+.avatar:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow:
+        0 0 0 6px rgba(7, 9, 12, 0.9),
+        0 0 45px rgba(74, 184, 255, 0.85);
+}
+
+/* Зелёная точка «онлайн» */
+.status-dot {
+    position: absolute;
+    bottom: 14px;
+    right: calc(50% - 62px);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #29e07a;
+    border: 3px solid #0a0d11;
+    box-shadow: 0 0 12px #29e07a;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 12px #29e07a; }
+    50%      { box-shadow: 0 0 20px #29e07a, 0 0 30px rgba(41, 224, 122, 0.6); }
+}
+
+/* --- Имя и титул --- */
+.name-title {
+    text-align: center;
+    padding: 20px 24px 0;
+}
+
+.name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #ffffff 20%, #9dd6ff 60%, #c8a8ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 18px rgba(74, 184, 255, 0.35));
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+}
+
+/* --- Соцкнопки --- */
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.social-btn {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #cfe6ff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: rgba(74, 184, 255, 0.08);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 0 12px rgba(74, 184, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    color: #fff;
+    border-color: var(--border-hover);
+    background: rgba(74, 184, 255, 0.2);
+    box-shadow: 0 0 20px rgba(74, 184, 255, 0.6);
+    transform: translateY(-3px);
+}
+
+/* ============ КОНТЕНТ-ПАНЕЛИ ============ */
+.content-panel {
+    padding: 30px 34px;
+    animation: fadeUp 0.8s ease both;
+}
+
+.content-panel:nth-child(2) { animation-delay: 0.1s; }
+.content-panel:nth-child(3) { animation-delay: 0.2s; }
+.content-panel:nth-child(4) { animation-delay: 0.3s; }
+
+.section-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #d6e9ff;
+    padding-left: 16px;
+    margin-bottom: 18px;
+    position: relative;
+    letter-spacing: -0.01em;
+}
+
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 22px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, var(--accent), #a05aff);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+.text-content {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #c6d6e6;
+    line-height: 1.75;
+}
+
+.text-content p + p {
+    margin-top: 12px;
+}
+
+.text-content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(74, 184, 255, 0.5);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.text-content a:hover {
+    color: #9dd6ff;
+    border-color: #9dd6ff;
+}
+
+.contact-line {
+    margin-top: 12px;
+    font-size: 1.05rem;
+}
+
+/* ============ ТЕГИ НАВЫКОВ ============ */
+.skill-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.skill-tags li {
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #cfe6ff;
+    background: rgba(74, 184, 255, 0.08);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 0 10px rgba(74, 184, 255, 0.08);
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.skill-tags li:hover {
+    color: #fff;
+    border-color: var(--border-hover);
+    background: rgba(74, 184, 255, 0.18);
+    box-shadow: 0 0 16px rgba(74, 184, 255, 0.55);
+    transform: translateY(-2px);
+}
+
+/* ============ АНИМАЦИЯ ПОЯВЛЕНИЯ ============ */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============ АДАПТИВ ============ */
+@media (max-width: 640px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    .banner {
+        height: 150px;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .avatar-wrapper {
+        margin-top: -62px;
+    }
+
+    .status-dot {
+        right: calc(50% - 48px);
+        width: 17px;
+        height: 17px;
+        bottom: 8px;
+    }
+
+    .name {
+        font-size: 1.85rem;
+    }
+
+    .title {
+        font-size: 0.95rem;
+    }
+
+    .content-panel {
+        padding: 24px 20px;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .social-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
